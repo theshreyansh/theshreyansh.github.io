@@ -1,11 +1,83 @@
 /**
-* Template Name: iPortfolio - v1.4.0
-* Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+* Template Name: MyResume - v2.1.0
+* Template URL: https://bootstrapmade.com/free-html-bootstrap-template-my-resume/
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 */
 !(function($) {
   "use strict";
+
+
+  //START
+  var burgerMenu = function() {
+    $('.burger').click(function(e) {
+      $(window).scrollTop(0);
+      if (!$('.burger').hasClass('active'))
+        $('.burger').addClass('active');
+      else
+        $('.burger').removeClass('active');
+    });
+  }
+  burgerMenu();
+
+  var siteIstotope = function() {
+    var $container = $('#portfolio-grid').isotope({
+      itemSelector: '.item',
+      isFitWidth: true
+    });
+
+    $(window).resize(function() {
+      $container.isotope({
+        columnWidth: '.col-sm-3'
+      });
+    });
+
+    $container.isotope({
+      filter: '*'
+    });
+
+    $('#filters').on('click', 'a', function(e) {
+      e.preventDefault();
+      var filterValue = $(this).attr('data-filter');
+      $container.isotope({
+        filter: filterValue
+      });
+      $('#filters a').removeClass('active');
+      $(this).addClass('active');
+    });
+  }
+  $(window).on('load', function() {
+    siteIstotope();
+  });
+
+  var siteOwlCarousel = function() {
+    $('.testimonial-carousel').owlCarousel({
+      center: true,
+      items: 1,
+      loop: true,
+      margin: 0,
+      autoplay: true,
+      smartSpeed: 1000,
+    });
+  };
+  siteOwlCarousel();
+
+  $(window).on('load', function() {
+    AOS.init({
+      easing: 'ease',
+      duration: 1000,
+      once: true
+    });
+  });
+  //END
+  // Preloader
+  $(window).on('load', function() {
+    if ($('#preloader').length) {
+      $('#preloader').delay(100).fadeOut('slow', function() {
+        $(this).remove();
+      });
+    }
+  });
 
   // Hero typed
   if ($('.typed').length) {
@@ -23,9 +95,9 @@
   // Smooth scroll for the navigation menu and links with .scrollto classes
   $(document).on('click', '.nav-menu a, .scrollto', function(e) {
     if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
-      e.preventDefault();
       var target = $(this.hash);
       if (target.length) {
+        e.preventDefault();
 
         var scrollto = target.offset().top;
 
@@ -77,10 +149,10 @@
 
   // Navigation active state on scroll
   var nav_sections = $('section');
-  var main_nav = $('.nav-menu, .mobile-nav');
+  var main_nav = $('.nav-menu, #mobile-nav');
 
   $(window).on('scroll', function() {
-    var cur_pos = $(this).scrollTop() + 200;
+    var cur_pos = $(this).scrollTop() + 300;
 
     nav_sections.each(function() {
       var top = $(this).offset().top,
@@ -92,7 +164,7 @@
         }
         main_nav.find('a[href="#' + $(this).attr('id') + '"]').parent('li').addClass('active');
       }
-      if (cur_pos < 300) {
+      if (cur_pos < 200) {
         $(".nav-menu ul:first li:first").addClass('active');
       }
     });
@@ -129,11 +201,18 @@
     offset: '80%'
   });
 
+  // Init AOS
+  function aos_init() {
+    AOS.init({
+      duration: 1000,
+      once: true
+    });
+  }
+
   // Porfolio isotope and filter
   $(window).on('load', function() {
     var portfolioIsotope = $('.portfolio-container').isotope({
-      itemSelector: '.portfolio-item',
-      layoutMode: 'fitRows'
+      itemSelector: '.portfolio-item'
     });
 
     $('#portfolio-flters li').on('click', function() {
@@ -147,9 +226,13 @@
     });
 
     // Initiate venobox (lightbox feature used in portofilo)
-    $(document).ready(function() {
-      $('.venobox').venobox();
+    $('.venobox').venobox({
+      'share': false
     });
+
+    // Initiate aos_init() function
+    aos_init();
+
   });
 
   // Testimonials carousel (uses the Owl Carousel library)
@@ -157,17 +240,7 @@
     autoplay: true,
     dots: true,
     loop: true,
-    responsive: {
-      0: {
-        items: 1
-      },
-      768: {
-        items: 2
-      },
-      900: {
-        items: 3
-      }
-    }
+    items: 1
   });
 
   // Portfolio details carousel
@@ -176,18 +249,6 @@
     dots: true,
     loop: true,
     items: 1
-  });
-
-  // Init AOS
-  function aos_init() {
-    AOS.init({
-      duration: 1000,
-      easing: "ease-in-out-back",
-      once: true
-    });
-  }
-  $(window).on('load', function() {
-    aos_init();
   });
 
 })(jQuery);
