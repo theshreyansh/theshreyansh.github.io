@@ -53,7 +53,23 @@
       font-size: 16px;
     }
   }
+
+  .company-logo {
+    width: 10px;  /* Set width to 150px */
+    height: 10px;  /* Set height to 100px */
+    margin: 0 10px;  /* Space between logos */
+    vertical-align: middle;  /* Align logos with text */
+  }
   
+  @media (max-width: 768px) {
+    .company-logo {
+      width: 120px;  /* Adjust width for smaller screens */
+      height: 80px;  /* Adjust height for smaller screens */
+      margin: 0 5px;  /* Adjust spacing for smaller screens */
+    }
+  }
+  
+
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
