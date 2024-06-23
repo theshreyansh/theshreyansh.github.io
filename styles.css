@@ -1,3 +1,59 @@
+#hero {
+    background: #f8f9fa; /* Adjust background as needed */
+    text-align: center;
+    padding: 100px 0;
+  }
+  
+  #hero h1 {
+    font-size: 48px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  #hero p {
+    font-size: 24px;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  .typed-cursor {
+    font-size: 24px;
+  }
+  
+  .social-links {
+    margin-top: 20px;
+  }
+  
+  .social-links a {
+    font-size: 18px;
+    margin: 0 10px;
+    color: #007bff;
+    transition: color 0.3s;
+  }
+  
+  .social-links a:hover {
+    color: #0056b3;
+  }
+  
+  .social-links i {
+    margin-left: 5px;
+  }
+  
+  @media (max-width: 768px) {
+    #hero h1 {
+      font-size: 32px;
+    }
+  
+    #hero p {
+      font-size: 18px;
+    }
+  
+    .social-links a {
+      font-size: 16px;
+    }
+  }
+  
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
