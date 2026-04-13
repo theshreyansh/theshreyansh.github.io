@@ -70,7 +70,7 @@ function initPersonaEngine() {
     const subtitleEl = document.getElementById('hero-subtitle');
     
     if(titleEl) {
-        titleEl.innerHTML = `Shreydhar <br><span class="text-gradient">${persona.title}</span>`;
+        titleEl.innerHTML = `Mr. Shreyansh Vaghela <br><span class="text-gradient">${persona.title}</span>`;
     }
     if(subtitleEl) subtitleEl.innerText = persona.subtitle;
 
