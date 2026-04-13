@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Portfolio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Anti-Scraping Protection -->
+    <style>
+        body {
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+    </style>
+</head>
+<body oncontextmenu="return false;" oncopy="return false;" oncut="return false;" onpaste="return false;">
+
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold font-outfit" href="#">Portfolio.</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section text-center d-flex align-items-center" id="hero-header">
+        <div class="container z-1">
+            <h1 class="display-3 fw-bolder font-outfit text-gradient mb-3 fade-in-up" id="hero-title">Shreydhar Data Professional</h1>
+            <p class="lead text-secondary mb-5 fade-in-up delay-1" id="hero-subtitle">Transforming raw data into actionable insights</p>
+            <div class="d-flex justify-content-center flex-wrap gap-2 fade-in-up delay-2" id="skills-container-hero">
+                <!-- Skills injected here -->
+            </div>
+        </div>
+    </header>
+
+    <main class="container my-5">
+
+        <!-- Dashboard / Charts Section -->
+        <section id="dashboard" class="mb-5 fade-in-up">
+            <h3 class="fw-bold font-outfit mb-4">Career Overview</h3>
+            
+            <!-- KPI Summary Cards -->
+            <div class="row g-3 mb-4 text-center" id="kpi-container">
+                <div class="col-sm-6 col-md-3">
+                    <div class="card glass-card h-100 p-3">
+                        <h6 class="text-secondary text-uppercase mb-1" style="font-size: 0.8rem; font-weight: 600;">Total Experience</h6>
+                        <h2 class="text-primary fw-bolder font-outfit mb-0" id="kpi-experience">--</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="card glass-card h-100 p-3">
+                        <h6 class="text-secondary text-uppercase mb-1" style="font-size: 0.8rem; font-weight: 600;">Highest Education</h6>
+                        <h2 class="text-primary fw-bolder font-outfit mb-0" id="kpi-education" style="font-size: 1.5rem; margin-top: 5px;">--</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="card glass-card h-100 p-3">
+                        <h6 class="text-secondary text-uppercase mb-1" style="font-size: 0.8rem; font-weight: 600;">Total Projects</h6>
+                        <h2 class="text-primary fw-bolder font-outfit mb-0" id="kpi-projects">--</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-md-3">
+                    <div class="card glass-card h-100 p-3">
+                        <h6 class="text-secondary text-uppercase mb-1" style="font-size: 0.8rem; font-weight: 600;">Certifications</h6>
+                        <h2 class="text-primary fw-bolder font-outfit mb-0" id="kpi-certs">--</h2>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1x4 Chart Row -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-lg-3">
+                    <div class="card glass-card h-100 p-2">
+                        <div class="card-body">
+                            <h6 class="card-title text-center text-secondary mb-3 fw-bold" style="font-size:0.75rem;">Skills vs % Projects</h6>
+                            <canvas id="skillProjectChartDashboard" style="max-height:180px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card glass-card h-100 p-2">
+                        <div class="card-body">
+                            <h6 class="card-title text-center text-secondary mb-3 fw-bold" style="font-size:0.75rem;">Skills vs % Certificates</h6>
+                            <canvas id="skillCertChart" style="max-height:180px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card glass-card h-100 p-2">
+                        <div class="card-body">
+                            <h6 class="card-title text-center text-secondary mb-3 fw-bold" style="font-size:0.75rem;">Industry vs % Projects</h6>
+                            <canvas id="industryProjectChart" style="max-height:180px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card glass-card h-100 p-2">
+                        <div class="card-body">
+                            <h6 class="card-title text-center text-secondary mb-3 fw-bold" style="font-size:0.75rem;">Industry vs % Certificates</h6>
+                            <canvas id="industryCertChart" style="max-height:180px;"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Business Deliveries -->
+            <div class="glass-card p-0 mb-2" style="border-radius:14px; overflow:hidden;">
+                <div class="d-flex align-items-center px-4 py-3" id="kbd-header"
+                     onclick="document.getElementById('kbd-body').classList.toggle('d-none'); this.querySelector('.kbd-chevron').classList.toggle('fa-chevron-down'); this.querySelector('.kbd-chevron').classList.toggle('fa-chevron-up');"
+                     style="cursor:pointer; background:var(--card-bg, #fff); user-select:none; -webkit-user-select:none;">
+                    <i class="fa-solid fa-trophy me-3" style="color:var(--accent-primary,#0066cc);"></i>
+                    <span class="fw-bold font-outfit" style="font-size:1rem;">Key Business Deliveries</span>
+                    <i class="fa-solid fa-chevron-down kbd-chevron ms-auto" style="color:#86868b; font-size:0.75rem;"></i>
+                </div>
+                <div id="kbd-body" class="d-none" style="border-top:1px solid rgba(0,0,0,0.06); background:#fafafc;">
+                    <div id="kbd-container" class="p-3">
+                        <!-- Injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Accordion -->
+        <div class="accordion mb-5" id="portfolioAccordion">
+
+            <!-- Experience Accordion -->
+            <div class="accordion-item fade-in-up delay-1 mb-4">
+                <h2 class="accordion-header" id="headingExperience">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExperience" aria-expanded="true" aria-controls="collapseExperience">
+                        Professional Experience
+                    </button>
+                </h2>
+                <div id="collapseExperience" class="accordion-collapse collapse show" aria-labelledby="headingExperience">
+                    <div class="accordion-body">
+                        <div class="timeline" id="experience-container">
+                            <!-- Data injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projects Accordion -->
+            <div class="accordion-item fade-in-up delay-2 mb-4">
+                <h2 class="accordion-header" id="headingProjects">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProjects" aria-expanded="false" aria-controls="collapseProjects">
+                        Projects Portfolio
+                    </button>
+                </h2>
+                <div id="collapseProjects" class="accordion-collapse collapse" aria-labelledby="headingProjects">
+                    <div class="accordion-body">
+                        <!-- Filters -->
+                        <div class="mb-4 text-center" id="project-filters">
+                            <span class="text-secondary small fw-bold me-2">Filter:</span>
+                            <!-- Injected JS Buttons -->
+                        </div>
+                        
+                        <div id="projects-container">
+                            <!-- Data injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recommendations Accordion -->
+            <div class="accordion-item fade-in-up delay-2 mb-4">
+                <h2 class="accordion-header" id="headingRecommendations">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRecommendations" aria-expanded="false" aria-controls="collapseRecommendations">
+                        Recommendations
+                    </button>
+                </h2>
+                <div id="collapseRecommendations" class="accordion-collapse collapse" aria-labelledby="headingRecommendations">
+                    <div class="accordion-body">
+                        <div class="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-3 grid-container" id="recommendations-container">
+                            <!-- Data injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education Accordion -->
+            <div class="accordion-item fade-in-up delay-2 mb-4" id="education-accordion">
+                <h2 class="accordion-header" id="headingEducation">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEducation" aria-expanded="false" aria-controls="collapseEducation">
+                        Education
+                    </button>
+                </h2>
+                <div id="collapseEducation" class="accordion-collapse collapse" aria-labelledby="headingEducation">
+                    <div class="accordion-body">
+                        <div class="timeline" id="education-container">
+                             <!-- Data injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certifications Accordion -->
+            <div class="accordion-item fade-in-up delay-2 mb-4">
+                <h2 class="accordion-header" id="headingCertifications">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCertifications" aria-expanded="false" aria-controls="collapseCertifications">
+                        Certifications
+                    </button>
+                </h2>
+                <div id="collapseCertifications" class="accordion-collapse collapse" aria-labelledby="headingCertifications">
+                    <div class="accordion-body">
+                        <!-- Project Skills Chart Section -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <div class="glass-card p-4">
+                                    <h5 class="text-center font-outfit fw-bold mb-3">Skills vs % Projects Analytics</h5>
+                                    <div style="height: 350px; position: relative;">
+                                        <canvas id="skillProjectChartMain"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Timeline Filter -->
+                        <div class="mb-2 text-center">
+                            <span class="text-secondary small fw-bold me-2">Timeline:</span>
+                            <select id="cert-year-filter" class="form-select d-inline-block w-auto py-0 px-2" style="font-size: 0.8rem; border-radius: 12px; height: 26px;">
+                                <option value="all">All Years</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020 & earlier</option>
+                            </select>
+                        </div>
+
+                        <!-- Filters -->
+                        <div class="mb-4 text-center" id="cert-filters">
+                            <span class="text-secondary small fw-bold me-2">Tags:</span>
+                            <!-- Injected JS Buttons -->
+                        </div>
+
+                        <div class="row row-cols-2 row-cols-md-3 row-cols-xl-5 g-3 grid-container" id="certifications-container">
+                             <!-- Data injected here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <footer class="text-center py-4 border-top border-light mt-5 text-secondary" style="font-size: 0.85rem">
+        <p class="mb-0">&copy; <script>document.write(new Date().getFullYear())</script> Portfolio. All rights reserved. <a href="admin.html" class="text-decoration-none text-muted" style="opacity: 0.3;">&pi;</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Data Visualization Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    
+    <!-- CryptoJS for secure on-the-fly decryption -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
