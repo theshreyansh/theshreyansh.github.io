@@ -25,11 +25,11 @@ const personas = [
         skills: ['Team Leadership', 'Project Management', 'Data Strategy', 'Stakeholder Communication', 'Predictive Modeling']
     },
     {
-        title: 'Senior Manager Data Science',
+        title: 'Lead Data Scientist',
         subtitle: 'Scaling analytics operations and nurturing high-performance AI and ML talent.',
         accent1: '#5856d6', // Apple Purple
         accent2: '#413fa3',
-        skills: ['AI/ML Delivery', 'Resource Planning', 'Data Governance', 'Advanced Analytics', 'Budgeting']
+        skills: ['Stackholder Management', 'Resource Planning', 'Data Governance', 'Advanced Analytics', 'Budgeting']
     },
     {
         title: 'Senior Data Scientist',
@@ -39,11 +39,11 @@ const personas = [
         skills: ['Python', 'Machine Learning', 'Big Data Engineering', 'NLP', 'Data Visualization']
     },
     {
-        title: 'Lead Data Scientist',
+        title: 'Lead AI/ML Developer',
         subtitle: 'Architecting scalable ML pipelines and pioneering innovative AI solutions.',
         accent1: '#ff9500', // Apple Orange
         accent2: '#b86b00',
-        skills: ['Deep Learning', 'Cloud Infrastructures', 'Architecture Design', 'Statistical Modeling', 'Spark/Hadoop']
+        skills: ['Deep Learning', 'C.O.E. Lead AI ML Development', 'Architecture Design', 'Statistical Modeling', 'Spark/Hadoop']
     },
     {
         title: 'AVP Data Science',
@@ -53,7 +53,7 @@ const personas = [
         skills: ['Executive Leadership', 'Digital Transformation', 'Enterprise AI Strategy', 'Vendor Management']
     },
     {
-        title: 'Director Data Science',
+        title: 'Team LeadData Science',
         subtitle: 'Visionary leadership translating advanced data capabilities into sustainable competitive advantages.',
         accent1: '#1d1d1f', // Graphite / Black
         accent2: '#000000',
