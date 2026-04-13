@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-w: 220px;
+            --accent: #0066cc;
+            --bg: #f5f5f7;
+            --card: #ffffff;
+        }
+        * { box-sizing: border-box; }
+        body { background: var(--bg); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 0; }
+
+        /* ── Login ── */
+        #login-section { display: flex; align-items: center; justify-content: center; min-height: 100vh; }
+        .login-card { background: var(--card); border-radius: 20px; padding: 2.5rem; width: 360px; box-shadow: 0 10px 40px rgba(0,0,0,0.08); text-align: center; }
+        .login-card h2 { font-weight: 700; margin-bottom: 1.5rem; }
+        .login-card input { border-radius: 12px; text-align: center; padding: .75rem; }
+        .login-card button { border-radius: 12px; padding: .75rem; font-weight: 600; }
+
+        /* ── App Shell ── */
+        #app { display: none; height: 100vh; overflow: hidden; }
+        .sidebar {
+            position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+            background: var(--card); border-right: 1px solid #e5e5ea;
+            display: flex; flex-direction: column; z-index: 100;
+        }
+        .sidebar-brand { padding: 1.25rem 1.25rem 1rem; border-bottom: 1px solid #e5e5ea; }
+        .sidebar-brand h5 { font-weight: 700; margin: 0; font-size: 1.1rem; }
+        .sidebar-brand small { color: #86868b; font-size: 0.75rem; }
+        .sidebar-nav { flex: 1; overflow-y: auto; padding: .5rem; }
+        .nav-section-label { font-size: 0.65rem; font-weight: 700; color: #86868b; text-transform: uppercase; letter-spacing: .08em; padding: .75rem .75rem .25rem; }
+        .sidebar-link {
+            display: flex; align-items: center; gap: 10px;
+            padding: .6rem .85rem; border-radius: 10px; cursor: pointer;
+            color: #3a3a3c; font-size: .88rem; font-weight: 500;
+            border: none; background: none; width: 100%; text-align: left;
+            transition: background .15s;
+        }
+        .sidebar-link:hover { background: #f0f0f5; }
+        .sidebar-link.active { background: var(--accent); color: #fff; }
+        .sidebar-link .badge-count {
+            margin-left: auto; font-size: .68rem; padding: 2px 7px;
+            border-radius: 10px; background: rgba(0,0,0,0.08); color: inherit;
+        }
+        .sidebar-link.active .badge-count { background: rgba(255,255,255,0.25); }
+        .sidebar-footer { padding: 1rem; border-top: 1px solid #e5e5ea; }
+        .sidebar-footer a { font-size: .8rem; color: #86868b; text-decoration: none; }
+
+        /* ── Main Content ── */
+        .main-content { margin-left: var(--sidebar-w); height: 100vh; overflow-y: auto; display: flex; flex-direction: column; }
+        .main-header { background: var(--card); border-bottom: 1px solid #e5e5ea; padding: 1rem 1.75rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
+        .main-header h4 { margin: 0; font-weight: 700; font-size: 1.1rem; }
+        .header-actions { display: flex; gap: .5rem; align-items: center; }
+        .main-body { padding: 1.5rem 1.75rem; flex: 1; }
+
+        /* ── Search & Toolbar ── */
+        .toolbar { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .toolbar input { border-radius: 10px; border: 1px solid #d2d2d7; padding: .45rem .85rem; font-size: .85rem; flex: 1; min-width: 200px; }
+        .toolbar input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.12); }
+
+        /* ── Table ── */
+        .data-card { background: var(--card); border-radius: 16px; border: 1px solid #e5e5ea; overflow: hidden; }
+        .table-responsive { max-height: calc(100vh - 240px); overflow-y: auto; }
+        table { margin: 0; font-size: .82rem; }
+        thead th { background: #f5f5f7; position: sticky; top: 0; z-index: 10; font-weight: 600; font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: #86868b; padding: .6rem .85rem; white-space: nowrap; border-bottom: 1px solid #e5e5ea; }
+        tbody tr:hover { background: #fafafa; }
+        tbody td { padding: .55rem .85rem; border-bottom: 1px solid #f0f0f5; vertical-align: middle; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        td.actions { white-space: nowrap; width: 80px; }
+
+        /* ── Buttons ── */
+        .btn-add { background: var(--accent); color: #fff; border: none; border-radius: 10px; padding: .45rem 1rem; font-size: .82rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .btn-add:hover { background: #0055aa; color: #fff; }
+        .btn-export { background: #f0f0f5; color: #3a3a3c; border: 1px solid #d2d2d7; border-radius: 10px; padding: .45rem 1rem; font-size: .82rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+        .btn-export:hover { background: #e5e5ea; }
+        .btn-icon { background: none; border: 1px solid #d2d2d7; border-radius: 7px; padding: 3px 8px; cursor: pointer; font-size: .8rem; color: #3a3a3c; }
+        .btn-icon:hover { background: #f0f0f5; }
+        .btn-icon.del:hover { background: #fff0f0; border-color: #ff3b30; color: #ff3b30; }
+        .btn-icon.edit:hover { background: #f0f5ff; border-color: var(--accent); color: var(--accent); }
+
+        /* ── Modal ── */
+        .modal-content { border-radius: 16px; border: none; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+        .modal-header { border-bottom: 1px solid #e5e5ea; padding: 1.1rem 1.4rem; }
+        .modal-title { font-weight: 700; font-size: 1rem; }
+        .modal-body { padding: 1.25rem 1.4rem; max-height: 68vh; overflow-y: auto; }
+        .modal-footer { border-top: 1px solid #e5e5ea; padding: .85rem 1.4rem; }
+        .form-section-title { font-size: .7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .08em; margin: 1rem 0 .5rem; border-top: 1px solid #f0f0f5; padding-top: .75rem; }
+        .form-section-title:first-child { margin-top: 0; border-top: none; padding-top: 0; }
+        label.form-label { font-size: .78rem; font-weight: 600; color: #3a3a3c; margin-bottom: 3px; }
+        .form-control, .form-select { border-radius: 9px; font-size: .85rem; border-color: #d2d2d7; }
+        .form-control:focus, .form-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(0,102,204,.12); }
+        .btn-primary { background: var(--accent); border-color: var(--accent); border-radius: 10px; }
+        .btn-secondary { border-radius: 10px; }
+
+        /* ── Section Panels ── */
+        .section-panel { display: none; }
+        .section-panel.active { display: block; }
+
+        /* ── Empty State ── */
+        .empty-state { text-align: center; padding: 3rem; color: #86868b; }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 1rem; opacity: .4; }
+    </style>
+</head>
+<body>
+
+<!-- ── Login ─────────────────────────────── -->
+<div id="login-section">
+    <div class="login-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🗂️</div>
+        <h2>Portfolio Admin</h2>
+        <input type="password" id="admin-pass" class="form-control mb-3" placeholder="Enter password"
+               onkeydown="if(event.key==='Enter') attemptLogin()">
+        <button class="btn btn-primary w-100" onclick="attemptLogin()">Unlock</button>
+        <p class="text-secondary small mt-3 mb-0">After editing, export CSV and run <code>update_data.bat</code></p>
+    </div>
+</div>
+
+<!-- ── App Shell ──────────────────────────── -->
+<div id="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <h5>Portfolio Admin</h5>
+            <small id="sidebar-date"></small>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Sections</div>
+            <button class="sidebar-link active" onclick="switchSection('experience')" id="nav-experience">
+                <i class="fa-solid fa-briefcase fa-fw"></i> Experience
+                <span class="badge-count" id="cnt-experience">0</span>
+            </button>
+            <button class="sidebar-link" onclick="switchSection('projects')" id="nav-projects">
+                <i class="fa-solid fa-diagram-project fa-fw"></i> Projects
+                <span class="badge-count" id="cnt-projects">0</span>
+            </button>
+            <button class="sidebar-link" onclick="switchSection('certifications')" id="nav-certifications">
+                <i class="fa-solid fa-certificate fa-fw"></i> Certifications
+                <span class="badge-count" id="cnt-certifications">0</span>
+            </button>
+            <button class="sidebar-link" onclick="switchSection('education')" id="nav-education">
+                <i class="fa-solid fa-graduation-cap fa-fw"></i> Education
+                <span class="badge-count" id="cnt-education">0</span>
+            </button>
+            <button class="sidebar-link" onclick="switchSection('recommendations')" id="nav-recommendations">
+                <i class="fa-solid fa-quote-left fa-fw"></i> Recommendations
+                <span class="badge-count" id="cnt-recommendations">0</span>
+            </button>
+            <button class="sidebar-link" onclick="switchSection('skills')" id="nav-skills">
+                <i class="fa-solid fa-tags fa-fw"></i> Skills
+                <span class="badge-count" id="cnt-skills">0</span>
+            </button>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="index.html"><i class="fa-solid fa-arrow-left me-1"></i>Back to Portfolio</a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <header class="main-header">
+            <h4 id="section-title">Experience</h4>
+            <div class="header-actions">
+                <button class="btn-export" id="btn-export" onclick="exportActiveSection()">
+                    <i class="fa-solid fa-download"></i> Export CSV
+                </button>
+                <button class="btn-add" id="btn-add" onclick="openModal(-1)">
+                    <i class="fa-solid fa-plus"></i> Add Row
+                </button>
+            </div>
+        </header>
+        <div class="main-body">
+
+            <!-- ── Experience ── -->
+            <div class="section-panel active" id="panel-experience">
+                <div class="toolbar">
+                    <input type="text" placeholder="Search experience..." oninput="filterTable('experience', this.value)">
+                </div>
+                <div class="data-card"><div class="table-responsive">
+                    <table id="table-experience"><tbody><tr><td class="empty-state"><i class="fa-solid fa-circle-notch fa-spin"></i></td></tr></tbody></table>
+                </div></div>
+            </div>
+
+            <!-- ── Projects ── -->
+            <div class="section-panel" id="panel-projects">
+                <div class="toolbar">
+                    <input type="text" placeholder="Search projects..." oninput="filterTable('projects', this.value)">
+                </div>
+                <div class="data-card"><div class="table-responsive">
+                    <table id="table-projects"><tbody><tr><td class="empty-state"><i class="fa-solid fa-circle-notch fa-spin"></i></td></tr></tbody></table>
+                </div></div>
+            </div>
+
+            <!-- ── Certifications ── -->
+            <div class="section-panel" id="panel-certifications">
+                <div class="toolbar">
+                    <input type="text" placeholder="Search certifications..." oninput="filterTable('certifications', this.value)">
+                </div>
+                <div class="data-card"><div class="table-responsive">
+                    <table id="table-certifications"><tbody><tr><td class="empty-state"><i class="fa-solid fa-circle-notch fa-spin"></i></td></tr></tbody></table>
+                </div></div>
+            </div>
+
+            <!-- ── Education ── -->
+            <div class="section-panel" id="panel-education">
+                <div class="toolbar">
+                    <input type="text" placeholder="Search education..." oninput="filterTable('education', this.value)">
+                </div>
+                <div class="data-card"><div class="table-responsive">
+                    <table id="table-education"><tbody><tr><td class="empty-state"><i class="fa-solid fa-circle-notch fa-spin"></i></td></tr></tbody></table>
+                </div></div>
+            </div>
+
+            <!-- ── Recommendations ── -->
+            <div class="section-panel" id="panel-recommendations">
+                <div class="toolbar">
+                    <input type="text" placeholder="Search recommendations..." oninput="filterTable('recommendations', this.value)">
+                </div>
+                <div class="data-card"><div class="table-responsive">
+                    <table id="table-recommendations"><tbody><tr><td class="empty-state"><i class="fa-solid fa-circle-notch fa-spin"></i></td></tr></tbody></table>
+                </div></div>
+            </div>
+
+            <!-- ── Skills ── -->
+            <div class="section-panel" id="panel-skills">
+                <div class="toolbar">
+                    <input type="text" placeholder="Search skills..." oninput="filterTable('skills', this.value)">
+                </div>
+                <div class="data-card"><div class="table-responsive">
+                    <table id="table-skills"><tbody><tr><td class="empty-state"><i class="fa-solid fa-circle-notch fa-spin"></i></td></tr></tbody></table>
+                </div></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ── Edit / Add Modal ───────────────────── -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-title">Add Entry</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary btn-sm" onclick="saveRow()">
+                    <i class="fa-solid fa-floppy-disk me-1"></i>Save
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ── Delete Confirm Modal ───────────────── -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <div class="modal-body text-center p-4">
+                <i class="fa-solid fa-triangle-exclamation fa-2x text-danger mb-3"></i>
+                <p class="fw-bold mb-1">Delete this entry?</p>
+                <p class="text-secondary small mb-3">This cannot be undone until you reload.</p>
+                <button class="btn btn-danger btn-sm me-2" onclick="confirmDelete()">Delete</button>
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>
